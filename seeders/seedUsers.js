@@ -11,6 +11,7 @@ const seedUsers = async () => {
   // Example Users data (10 docs)
   const usersData = [
     {
+      // 1
       _id: "68b4975eac3eeb1342627127",
       fullName: "Admin User",
       email: "admin@example.com",
@@ -23,8 +24,10 @@ const seedUsers = async () => {
       city: "Lahore",
       gender: "female",
       status: "active",
+      categoriesOwned: ["68b5d30d1d2e853054b27734", "68b5d30d1d2e853054b2772f"],
     },
     {
+      // 2
       _id: "68b4975eac3eeb1342627128",
       fullName: "Ali Raza",
       email: "ali.raza@example.com",
@@ -37,8 +40,10 @@ const seedUsers = async () => {
       city: "Karachi",
       gender: "male",
       status: "active",
+      categoriesOwned: ["68b5d30d1d2e853054b27730", "68b5d30d1d2e853054b27732"],
     },
     {
+      // 3
       _id: "68b4975eac3eeb1342627129",
       fullName: "Sara Ahmed",
       email: "sara.ahmed@example.com",
@@ -53,6 +58,7 @@ const seedUsers = async () => {
       status: "inactive",
     },
     {
+      // 4
       _id: "68b4975eac3eeb134262712a",
       fullName: "Bilal Khan",
       email: "bilal.khan@example.com",
@@ -65,8 +71,10 @@ const seedUsers = async () => {
       city: "Faisalabad",
       gender: "male",
       status: "active",
+      categoriesOwned: ["68b5d30d1d2e853054b27736"],
     },
     {
+      // 5
       _id: "68b4975eac3eeb134262712b",
       fullName: "Ayesha Siddiqui",
       email: "ayesha.s@example.com",
@@ -81,6 +89,7 @@ const seedUsers = async () => {
       status: "active",
     },
     {
+      // 6
       _id: "68b4975eac3eeb134262712c",
       fullName: "Usman Shah",
       email: "usman.shah@example.com",
@@ -95,6 +104,7 @@ const seedUsers = async () => {
       status: "banned",
     },
     {
+      // 7
       _id: "68b4975eac3eeb134262712d",
       fullName: "Maryam Iqbal",
       email: "maryam.iqbal@example.com",
@@ -107,13 +117,15 @@ const seedUsers = async () => {
       city: "Quetta",
       gender: "female",
       status: "active",
+      categoriesOwned: ["68b5d30c1d2e853054b2772e", "68b5d30d1d2e853054b27735", "68b5d30d1d2e853054b27733"],
     },
     {
+      // 8
       _id: "68b4975eac3eeb134262712e",
       fullName: "Hassan Raza",
       email: "hassan.raza@example.com",
       role: "user",
-      otp: "1111",
+      otp: "1281",
       otpExpiresAt: "2025-05-22T16:45:00.000Z",
       password: "$2b$10$okp0.JT.aGRCJPZ9IcqsEOZwP1dZoRtWW05i3wC7O7C2xVNR3XGIe", // pswd: hassan123
       profilePicture: "https://example.com/profiles/hassan_raza.jpg",
@@ -123,11 +135,12 @@ const seedUsers = async () => {
       status: "active",
     },
     {
+      // 9
       _id: "68b4975eac3eeb134262712f",
       fullName: "Noor Fatima",
       email: "noor.fatima@example.com",
       role: "user",
-      otp: "2222",
+      otp: "9822",
       otpExpiresAt: "2025-04-25T13:20:00.000Z",
       password: "$2b$10$wMfQdg9OuPAltmfiNKPWFuaKBFRuNXei21XXuQNcmASTqE0XooLIa", // pswd: noor123
       profilePicture: "https://example.com/profiles/noor_fatima.jpg",
@@ -137,11 +150,12 @@ const seedUsers = async () => {
       status: "inactive",
     },
     {
+      // 10
       _id: "68b4975eac3eeb1342627130",
       fullName: "Kamran Ali",
       email: "kamran.ali@example.com",
       role: "user",
-      otp: "3333",
+      otp: "3097",
       otpExpiresAt: "2025-03-30T19:30:00.000Z",
       password: "$2b$10$FNwC8HNRBN56GPvX3qxgQ.QO/mm6doLOhjBbVf87LrMVrtbsjzgYO", // pswd: kamran123
       profilePicture: "https://example.com/profiles/kamran_ali.jpg",
@@ -149,7 +163,83 @@ const seedUsers = async () => {
       city: "Rawalpindi",
       gender: "male",
       status: "active",
+      categoriesOwned: ["68b5d30d1d2e853054b27737", "68b5d30d1d2e853054b27731"],
     },
+    // {
+    //   // 11
+    //   _id: "68b4975eac3eeb1342627131",
+    //   fullName: "Zainab Malik",
+    //   email: "zainab.malik@example.com",
+    //   role: "user",
+    //   otp: "4195",
+    //   otpExpiresAt: "2025-02-28T17:10:00.000Z",
+    //   password: "$2b$10$gWkb6Zl6W5bq59tDqj3wAOhcLqk8LUhZl9htjzW2STfS4mjo7HdRm", // pswd: zainab123
+    //   profilePicture: "https://example.com/profiles/zainab_malik.jpg",
+    //   phone: "+923330000011",
+    //   city: "Bahawalpur",
+    //   gender: "female",
+    //   status: "active",
+    // },
+    // {
+    //   // 12
+    //   _id: "68b4975eac3eeb1342627132",
+    //   fullName: "Farhan Ahmed",
+    //   email: "farhan.ahmed@example.com",
+    //   role: "user",
+    //   otp: "0375",
+    //   otpExpiresAt: "2025-01-18T08:40:00.000Z",
+    //   password: "$2b$10$6rPpS2JENbF46lFDxk8k0uXThG8cLg0I2ivtdFjXIDr5YqEnTjWiK", // pswd: farhan123
+    //   profilePicture: "https://example.com/profiles/farhan_ahmed.jpg",
+    //   phone: "+923330000012",
+    //   city: "Gujranwala",
+    //   gender: "male",
+    //   status: "active",
+    // },
+    // {
+    //   // 13
+    //   _id: "68b4975eac3eeb1342627133",
+    //   fullName: "Aiman Tariq",
+    //   email: "aiman.tariq@example.com",
+    //   role: "user",
+    //   otp: "8346",
+    //   otpExpiresAt: "2024-12-10T15:25:00.000Z",
+    //   password: "$2b$10$Y7zntxC8uA4g4J.2Qm4I3OUkwRUMZ5eRJ5dI4Vt5XdwK4oc6XOk8a", // pswd: aiman123
+    //   profilePicture: "https://example.com/profiles/aiman_tariq.jpg",
+    //   phone: "+923330000013",
+    //   city: "Abbottabad",
+    //   gender: "female",
+    //   status: "inactive",
+    // },
+    // {
+    //   // 14
+    //   _id: "68b4975eac3eeb1342627134",
+    //   fullName: "Hamza Nadeem",
+    //   email: "hamza.nadeem@example.com",
+    //   role: "user",
+    //   otp: "2136",
+    //   otpExpiresAt: "2024-11-22T09:50:00.000Z",
+    //   password: "$2b$10$CG8BxHj0W9aGJoCw1y4N8u61Je.TuZ7erjVfVq5ekxC0QWcZpIazS", // pswd: hamza123
+    //   profilePicture: "https://example.com/profiles/hamza_nadeem.jpg",
+    //   phone: "+923330000014",
+    //   city: "Sargodha",
+    //   gender: "male",
+    //   status: "banned",
+    // },
+    // {
+    //   // 15
+    //   _id: "68b4975eac3eeb1342627135",
+    //   fullName: "Fatima Javed",
+    //   email: "fatima.javed@example.com",
+    //   role: "user",
+    //   otp: "8808",
+    //   otpExpiresAt: "2024-10-05T20:35:00.000Z",
+    //   password: "$2b$10$6QFq4FzT3s9DAXLh7R3t7utx6qPEW.R0hy7cB7L8x8hV7XbDpsS1O", // pswd: fatima123
+    //   profilePicture: "https://example.com/profiles/fatima_javed.jpg",
+    //   phone: "+923330000015",
+    //   city: "Sukkur",
+    //   gender: "female",
+    //   status: "active",
+    // },
   ];
 
   await Users.insertMany(usersData);

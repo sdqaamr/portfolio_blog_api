@@ -52,6 +52,12 @@ const usersSchema = mongoose.Schema({
     enum: ["active", "inactive", "banned"],
     default: "inactive",
   },
+  categoriesOwned: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
+  ],
 });
 
 const Users = new mongoose.model("Users", usersSchema);

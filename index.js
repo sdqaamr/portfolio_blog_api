@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import userRoutes from "./routes/users.js";
+import categoryRoutes from "./routes/categories.js";
 import { apiRateLimit } from "./middlewares/api-limit.js";
 import dbConnect from "./config/database.js";
 import cors from "cors";
@@ -22,6 +23,9 @@ dbConnect();
 
 // Users
 app.use("/api/auth/", apiRateLimit, userRoutes);
+
+// Categories
+app.use("/api/categories", apiRateLimit, categoryRoutes);
 
 // Handle 404 for undefined routes
 app.use((req, res, next) => {

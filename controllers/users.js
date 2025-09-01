@@ -17,7 +17,8 @@ let getProfile = async (req, res) => {
         "phone",
         "createdAt",
         "otpExpiresAt",
-      ]);
+        "categoriesOwned",
+      ]).populate("categoriesOwned", ["name", "slug"]);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -131,7 +132,7 @@ let signupUser = async (req, res) => {
 let loginUser = async (req, res) => {
   try {
     let { email, password } = req.body;
-    const user = await Users.findOne({ email: email });
+    const user = await Users.findOne({ email: email }).populate("categoriesOwned", ["name", "slug"]);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -182,6 +183,7 @@ let loginUser = async (req, res) => {
           gender: user.gender,
           createdAt: user.createdAt,
           status: user.status,
+          categoriesOwned: user.categoriesOwned,
         },
       },
       error: null,
@@ -273,7 +275,7 @@ let updateProfile = async (req, res) => {
       });
     }
 
-    // Prevent email, otp, role, and password updates
+    // Prevent email, otp, role, and password etc. updates
     const forbiddenFields = [
       "email",
       "role",
@@ -283,6 +285,7 @@ let updateProfile = async (req, res) => {
       "createdAt",
       "updatedAt",
       "status",   
+      "categoriesOwned",
     ];
     forbiddenFields.forEach((field) => {
       if (field in req.body) {
