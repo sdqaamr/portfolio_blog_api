@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import userRoutes from "./routes/users.js";
 import categoryRoutes from "./routes/categories.js";
+import tagRoutes from "./routes/tags.js";
 import { apiRateLimit } from "./middlewares/api-limit.js";
 import dbConnect from "./config/database.js";
 import cors from "cors";
@@ -27,14 +28,17 @@ app.use("/api/auth/", apiRateLimit, userRoutes);
 // Categories
 app.use("/api/categories", apiRateLimit, categoryRoutes);
 
+// Tags
+app.use("/api/tags", apiRateLimit, tagRoutes);
+
 // Handle 404 for undefined routes
 app.use((req, res, next) => {
-  res.status(404).json({ 
+  res.status(404).json({
     success: false,
     message: "The requested endpoint does not exist",
     data: null,
     error: "Route not found",
-   });
+  });
 });
 
 const port = process.env.PORT || 3000;

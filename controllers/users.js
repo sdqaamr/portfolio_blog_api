@@ -18,7 +18,8 @@ let getProfile = async (req, res) => {
         "createdAt",
         "otpExpiresAt",
         "categoriesOwned",
-      ]).populate("categoriesOwned", ["name", "slug"]);
+      ])
+      .populate("categoriesOwned", ["name", "slug"]);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -132,7 +133,10 @@ let signupUser = async (req, res) => {
 let loginUser = async (req, res) => {
   try {
     let { email, password } = req.body;
-    const user = await Users.findOne({ email: email }).populate("categoriesOwned", ["name", "slug"]);
+    const user = await Users.findOne({ email: email }).populate(
+      "categoriesOwned",
+      ["name", "slug"]
+    );
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -284,7 +288,7 @@ let updateProfile = async (req, res) => {
       "password",
       "createdAt",
       "updatedAt",
-      "status",   
+      "status",
       "categoriesOwned",
     ];
     forbiddenFields.forEach((field) => {
@@ -296,17 +300,17 @@ let updateProfile = async (req, res) => {
       new: true,
       runValidators: true,
     }).select([
-        "fullName",
-        "email",
-        "role",
-        "city",
-        "profilePicture",
-        "status",
-        "phone",
-        "createdAt",
-        "updatedAt",
-        "otpExpiresAt",
-      ]);
+      "fullName",
+      "email",
+      "role",
+      "city",
+      "profilePicture",
+      "status",
+      "phone",
+      "createdAt",
+      "updatedAt",
+      "otpExpiresAt",
+    ]);
 
     if (!user) {
       return res.status(404).json({
@@ -333,10 +337,4 @@ let updateProfile = async (req, res) => {
   }
 };
 
-export {
-  getProfile,
-  signupUser,
-  loginUser,
-  changePassword,
-  updateProfile,
-};
+export { getProfile, signupUser, loginUser, changePassword, updateProfile };
