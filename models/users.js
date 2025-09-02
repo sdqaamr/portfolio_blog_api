@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Tag from "./tags.js";
 
 const usersSchema = mongoose.Schema({
   fullName: String,
@@ -56,6 +57,18 @@ const usersSchema = mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+    },
+  ],
+  articlesCreated: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Article",
+    },
+  ],
+  tagsCreated: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tag",
     },
   ],
 });

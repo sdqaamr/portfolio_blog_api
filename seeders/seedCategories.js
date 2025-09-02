@@ -12,7 +12,7 @@ const seedCategories = async () => {
   const categoriesData = [
     {
       // 1
-      _id: "68b5d30c1d2e853054b2772e",
+      _id: "68b5d30d1d2e853054b2773a",
       name: "Artificial Intelligence",
       slug: "artificial-intelligence",
       createdBy: "68b4975eac3eeb134262712d",

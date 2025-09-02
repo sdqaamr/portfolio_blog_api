@@ -24,7 +24,22 @@ const seedUsers = async () => {
       city: "Lahore",
       gender: "female",
       status: "active",
-      categoriesOwned: ["68b5d30d1d2e853054b27734", "68b5d30d1d2e853054b2772f"],
+      categoriesOwned: [
+        "68b5d30d1d2e853054b27734", 
+        "68b5d30d1d2e853054b2772f",
+      ],
+      articlesCreated: [
+        "68b69d987af68da48f18e12c", // 1
+        "68b69d987af68da48f18e132", // 7
+      ],
+      tagsCreated: [
+        "68b67a1539400d687b630840", // Neural Networks
+        "68b67a1539400d687b630845", // Deep Learning
+        "68b67a1539400d687b630852", // Computer Vision
+        "68b67a1539400d687b63083d", // Smart Homes
+        "68b67a1539400d687b630843", // Wearables
+        "68b67a1539400d687b630841", // Edge Computing
+      ],
     },
     {
       // 2
@@ -40,7 +55,21 @@ const seedUsers = async () => {
       city: "Karachi",
       gender: "male",
       status: "active",
-      categoriesOwned: ["68b5d30d1d2e853054b27730", "68b5d30d1d2e853054b27732"],
+      categoriesOwned: [
+        "68b5d30d1d2e853054b27730", 
+        "68b5d30d1d2e853054b27732",
+      ],
+      articlesCreated: [
+        "68b69d987af68da48f18e12e", // 3
+        "68b69d987af68da48f18e135", // 10
+        "68b69d987af68da48f18e12d", // 2
+      ],
+      tagsCreated: [
+        "68b67a1539400d687b63083b", // Predictive Analytics
+        "68b67a1539400d687b630837", // Big Data
+        "68b67a1539400d687b630838", // Seed Funding
+        "68b67a1539400d687b630846", // Business Incubators
+      ],
     },
     {
       // 3
@@ -71,7 +100,21 @@ const seedUsers = async () => {
       city: "Faisalabad",
       gender: "male",
       status: "active",
-      categoriesOwned: ["68b5d30d1d2e853054b27736"],
+      categoriesOwned: [
+        "68b5d30d1d2e853054b27736",
+      ],
+      articlesCreated: [
+        "68b69d987af68da48f18e134", // 9
+        "68b69d987af68da48f18e130", // 5
+      ],
+      tagsCreated: [
+        "68b67a1539400d687b63084d", // Telemedicine
+        "68b67a1539400d687b63083a", // Health Apps
+        "68b67a1539400d687b630849", // MedTech Devices
+        "68b67a1539400d687b630839", // Ethical Hacking
+        "68b67a1539400d687b630850", // Penetration Testing
+        "68b67a1539400d687b63084b", // Zero Trust
+      ],
     },
     {
       // 5
@@ -122,6 +165,22 @@ const seedUsers = async () => {
         "68b5d30d1d2e853054b27735",
         "68b5d30d1d2e853054b27733",
       ],
+      articlesCreated: [
+        "68b69d987af68da48f18e133", // 8
+        "68b69d987af68da48f18e131", // 6
+        "68b69d987af68da48f18e137", // 12
+      ],
+      tagsCreated: [
+        "68b67a1539400d687b630851", // Gamification
+        "68b67a1539400d687b63083e", // EdTech Tools
+        "68b67a1539400d687b630844", // Virtual Classrooms
+        "68b67a1539400d687b63084e", // Hybrid Cloud
+        "68b67a1539400d687b63083f", // Cloud Security
+        "68b67a1439400d687b630836", // Serverless
+        "68b67a1539400d687b630848", // Remote Work
+        "68b67a1539400d687b63084a", // Collaboration Tools
+        "68b67a1539400d687b630853", // Digital Nomads
+      ],
     },
     {
       // 8
@@ -137,6 +196,14 @@ const seedUsers = async () => {
       city: "Sialkot",
       gender: "male",
       status: "active",
+      articlesCreated: [
+        "68b69d987af68da48f18e136", // 11
+      ],
+      tagsCreated: [
+        "68b67a1539400d687b63083c", // NLP
+        "68b67a1539400d687b630842", // Voice Recognition
+        "68b67a1539400d687b630847", // Chatbots
+      ],
     },
     {
       // 9
@@ -167,7 +234,17 @@ const seedUsers = async () => {
       city: "Rawalpindi",
       gender: "male",
       status: "active",
-      categoriesOwned: ["68b5d30d1d2e853054b27737", "68b5d30d1d2e853054b27731"],
+      categoriesOwned: [
+        "68b5d30d1d2e853054b27737", 
+        "68b5d30d1d2e853054b27731",
+      ],
+      articlesCreated: [
+        "68b69d987af68da48f18e12f" // 4
+      ],
+      tagsCreated: [
+        "68b67a1539400d687b63084c", // DApps
+        "68b67a1539400d687b63084f", // NFTs
+      ],
     },
   ];
 

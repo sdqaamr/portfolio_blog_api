@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import userRoutes from "./routes/users.js";
 import categoryRoutes from "./routes/categories.js";
+import articleRoutes from "./routes/articles.js";
 import tagRoutes from "./routes/tags.js";
 import { apiRateLimit } from "./middlewares/api-limit.js";
 import dbConnect from "./config/database.js";
@@ -27,6 +28,9 @@ app.use("/api/auth/", apiRateLimit, userRoutes);
 
 // Categories
 app.use("/api/categories", apiRateLimit, categoryRoutes);
+
+// Articles
+app.use("/api/articles", apiRateLimit, articleRoutes);
 
 // Tags
 app.use("/api/tags", apiRateLimit, tagRoutes);
