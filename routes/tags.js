@@ -1,11 +1,13 @@
 import express from "express";
+const router = express.Router();
+
 import { fetchTags, createTag, deleteTag } from "../controllers/tags.js";
 import validateId from "../middlewares/validateId.js";
 import { verifyToken } from "../middlewares/auth.js";
-const router = express.Router();
+import checkBannedUser from "../middlewares/checkBanned.js";
 
 router.get("/", fetchTags);
-router.post("/", verifyToken, createTag);
-router.delete("/:id", verifyToken, validateId, deleteTag);
+router.post("/", verifyToken, checkBannedUser, createTag);
+router.delete("/:id", verifyToken, checkBannedUser, validateId, deleteTag);
 
 export default router;

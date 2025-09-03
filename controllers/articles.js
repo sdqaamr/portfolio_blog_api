@@ -169,6 +169,45 @@ let updateArticle = async (req, res) => {
   }
 };
 
+// Toggle Publish / Unpublish
+const toggleArticlePublish = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const article = await Article.findById(id)
+      .populate("categories", ["name"])
+      .populate("tags", ["name"])
+      .populate("createdBy", ["fullName"]);
+
+    if (!article) {
+      return res.status(404).json({
+        success: false,
+        message: "Article not found",
+        data: null,
+        error: null,
+      });
+    }
+
+    article.published = !article.published;
+    await article.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Article ${
+        article.published ? "published" : "unpublished"
+      } successfully`,
+      data: article,
+      error: null,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      data: null,
+      error: error.message,
+    });
+  }
+};
+
 const deleteArticle = async (req, res) => {
   try {
     const { id } = req.params;
@@ -198,4 +237,10 @@ const deleteArticle = async (req, res) => {
   }
 };
 
-export { getArticle, createArticle, updateArticle, deleteArticle };
+export {
+  getArticle,
+  createArticle,
+  updateArticle,
+  toggleArticlePublish,
+  deleteArticle,
+};

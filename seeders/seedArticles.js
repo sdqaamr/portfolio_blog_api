@@ -8,7 +8,7 @@ const seedArticles = async () => {
     return;
   }
 
-  // Example Articles data (15 docs)
+  // Example Articles data (12 docs)
   const articlesData = [
     {
       // 1
@@ -17,12 +17,15 @@ const seedArticles = async () => {
       slug: "neural-networks-in-artificial-intelligence",
       content:
         "Neural networks are the backbone of modern AI, enabling systems to learn from large datasets. This article explores how they power intelligent decision-making across industries.",
-      categories: ["68b5d30d1d2e853054b27733", "68b5d30d1d2e853054b2772f"], // AI, ML
+      categories: [
+        "68b5d30d1d2e853054b2773a", // AI
+        "68b5d30d1d2e853054b2772f", // ML
+      ],
       tags: [
-        "68b67a1539400d687b630840",
-        "68b67a1539400d687b630845",
-        "68b67a1539400d687b630852",
-      ], // Neural Networks, Deep Learning, Computer Vision
+        "68b67a1539400d687b630840", // Neural Networks
+        "68b67a1539400d687b630845", // Deep Learning
+        "68b67a1539400d687b630852", // Computer Vision
+      ],
       createdBy: "68b4975eac3eeb1342627127", // Admin User
       published: true,
       createdAt: "2025-09-01T17:00:00.000Z",
@@ -35,8 +38,14 @@ const seedArticles = async () => {
       slug: "big-data-driving-machine-learning",
       content:
         "Machine learning relies heavily on massive amounts of structured and unstructured data. Big Data provides the fuel that powers accurate models and predictions.",
-      categories: ["68b5d30d1d2e853054b2772f", "68b5d30d1d2e853054b27730"], // ML, DS
-      tags: ["68b67a1539400d687b630837", "68b67a1539400d687b63083b"], // Big Data, Predictive Analytics
+      categories: [
+        "68b5d30d1d2e853054b2772f", // ML
+        "68b5d30d1d2e853054b27730", // DS
+      ],
+      tags: [
+        "68b67a1539400d687b630837", // Big Data
+        "68b67a1539400d687b63083b", // Predictive Analytics
+      ],
       createdBy: "68b4975eac3eeb1342627128", // Ali Raza
       published: true,
       createdAt: "2025-09-01T17:05:00.000Z",
@@ -50,7 +59,10 @@ const seedArticles = async () => {
       content:
         "Predictive analytics uses historical data and machine learning algorithms to forecast future outcomes. Data scientists leverage it for business intelligence and strategy.",
       categories: ["68b5d30d1d2e853054b27730"], // DS
-      tags: ["68b67a1539400d687b63083b", "68b67a1539400d687b630837"], // Predictive Analytics, Big Data
+      tags: [
+        "68b67a1539400d687b63083b", // Predictive Analytics
+        "68b67a1539400d687b630837", // Big Data
+      ],
       createdBy: "68b4975eac3eeb1342627128", // Ali Raza
       published: false,
       createdAt: "2025-09-01T17:10:00.000Z",
@@ -63,12 +75,15 @@ const seedArticles = async () => {
       slug: "blockchain-and-dapps",
       content:
         "Blockchain technology has unlocked decentralized applications (DApps) that operate without central control. This article explains how DApps are reshaping industries.",
-      categories: ["68b5d30d1d2e853054b27731", "68b5d30d1d2e853054b27737"], // Blockchain, Startups
+      categories: [
+        "68b5d30d1d2e853054b27731", // Blockchain
+        "68b5d30d1d2e853054b27737", // Startups
+      ],
       tags: [
-        "68b67a1539400d687b63084c",
-        "68b67a1539400d687b63084f",
-        "68b67a1539400d687b630846",
-      ], // DApps, NFTs, Business Incubators
+        "68b67a1539400d687b63084c", // DApps
+        "68b67a1539400d687b63084f", // NFTs
+        "68b67a1539400d687b630846", // Business Incubators
+      ],
       createdBy: "68b4975eac3eeb1342627130", // Kamran Ali
       published: true,
       createdAt: "2025-09-01T17:15:00.000Z",
@@ -81,12 +96,15 @@ const seedArticles = async () => {
       slug: "fighting-cybersecurity-threats-with-ethical-hacking",
       content:
         "Ethical hackers simulate attacks to identify vulnerabilities before malicious actors exploit them. This is becoming a vital defense strategy in modern cybersecurity.",
-      categories: ["68b5d30d1d2e853054b27732", "68b5d30d1d2e853054b27733"], // Cybersecurity, AI
+      categories: [
+        "68b5d30d1d2e853054b27732", // Cybersecurity
+        "68b5d30d1d2e853054b2773a", // AI
+      ],
       tags: [
-        "68b67a1539400d687b630839",
-        "68b67a1539400d687b630850",
-        "68b67a1539400d687b63084b",
-      ], // Ethical Hacking, Penetration Testing, Zero Trust
+        "68b67a1539400d687b630839", // Ethical Hacking
+        "68b67a1539400d687b630850", // Penetration Testing
+        "68b67a1539400d687b63084b", // Zero Trust
+      ],
       createdBy: "68b4975eac3eeb134262712a", // Bilal Khan
       published: false,
       createdAt: "2025-09-01T17:20:00.000Z",
@@ -99,12 +117,15 @@ const seedArticles = async () => {
       slug: "hybrid-cloud-security-in-cloud-computing",
       content:
         "Hybrid cloud solutions combine private and public infrastructures, offering scalability with control. Cloud security practices ensure safe data transfer and storage.",
-      categories: ["68b5d30d1d2e853054b27733", "68b5d30d1d2e853054b27732"], // Cloud Computing, Cybersecurity
+      categories: [
+        "68b5d30d1d2e853054b27733", // Cloud Computing
+        "68b5d30d1d2e853054b27732", // Cybersecurity
+      ],
       tags: [
-        "68b67a1539400d687b63084e",
-        "68b67a1539400d687b63083f",
-        "68b67a1439400d687b630836",
-      ], // Hybrid Cloud, Cloud Security, Serverless
+        "68b67a1539400d687b63084e", // Hybrid Cloud
+        "68b67a1539400d687b63083f", // Cloud Security
+        "68b67a1439400d687b630836", // Serverless
+      ],
       createdBy: "68b4975eac3eeb134262712d", // Maryam Iqbal
       published: true,
       createdAt: "2025-09-01T17:25:00.000Z",
@@ -117,12 +138,15 @@ const seedArticles = async () => {
       slug: "smart-homes-and-iot",
       content:
         "The Internet of Things enables smart homes that automate energy, security, and daily tasks. Devices like wearables and sensors are making connected living a reality.",
-      categories: ["68b5d30d1d2e853054b27734", "68b5d30d1d2e853054b27733"], // IoT, Cloud Computing
+      categories: [
+        "68b5d30d1d2e853054b27734", // IoT
+        "68b5d30d1d2e853054b27733", // Cloud Computing
+      ],
       tags: [
-        "68b67a1539400d687b63083d",
-        "68b67a1539400d687b630843",
-        "68b67a1539400d687b630841",
-      ], // Smart Homes, Wearables, Edge Computing
+        "68b67a1539400d687b63083d", // Smart Homes
+        "68b67a1539400d687b630843", // Wearables
+        "68b67a1539400d687b630841", // Edge Computing
+      ],
       createdBy: "68b4975eac3eeb1342627127", // Admin User
       published: false,
       createdAt: "2025-09-01T17:30:00.000Z",
@@ -135,12 +159,15 @@ const seedArticles = async () => {
       slug: "gamification-in-e-learning-platforms",
       content:
         "Gamification boosts learner engagement by integrating points, badges, and challenges into courses. E-learning platforms use gamification to make education interactive.",
-      categories: ["68b5d30d1d2e853054b27735", "68b5d30d1d2e853054b27733"], // E-learning, AI
+      categories: [
+        "68b5d30d1d2e853054b27735", // E-learning
+        "68b5d30d1d2e853054b2773a", // AI
+      ],
       tags: [
-        "68b67a1539400d687b630851",
-        "68b67a1539400d687b63083e",
-        "68b67a1539400d687b630844",
-      ], // Gamification, EdTech Tools, Virtual Classrooms
+        "68b67a1539400d687b630851", // Gamification
+        "68b67a1539400d687b63083e", // EdTech Tools
+        "68b67a1539400d687b630844", // Virtual Classrooms
+      ],
       createdBy: "68b4975eac3eeb134262712d", // Maryam Iqbal
       published: true,
       createdAt: "2025-09-01T17:35:00.000Z",
@@ -155,10 +182,10 @@ const seedArticles = async () => {
         "Telemedicine platforms allow patients to consult doctors remotely, improving healthcare access. Health apps and MedTech devices support daily monitoring and wellbeing.",
       categories: ["68b5d30d1d2e853054b27736"], // HealthTech
       tags: [
-        "68b67a1539400d687b63084d",
-        "68b67a1539400d687b63083a",
-        "68b67a1539400d687b630849",
-      ], // Telemedicine, Health Apps, MedTech Devices
+        "68b67a1539400d687b63084d", // Telemedicine
+        "68b67a1539400d687b63083a", // Health Apps
+        "68b67a1539400d687b630849", // MedTech Devices
+      ],
       createdBy: "68b4975eac3eeb134262712a", // Bilal Khan
       published: true,
       createdAt: "2025-09-01T17:40:00.000Z",
@@ -171,8 +198,14 @@ const seedArticles = async () => {
       slug: "seed-funding-trends-in-startups",
       content:
         "Seed funding provides essential capital for early-stage startups. Recent trends highlight how incubators and investors shape the journey from idea to market.",
-      categories: ["68b5d30d1d2e853054b27737", "68b5d30d1d2e853054b27730"], // Startups, DS
-      tags: ["68b67a1539400d687b630838", "68b67a1539400d687b630846"], // Seed Funding, Business Incubators
+      categories: [
+        "68b5d30d1d2e853054b27737", // Startups
+        "68b5d30d1d2e853054b27730", // DS
+      ],
+      tags: [
+        "68b67a1539400d687b630838", // Seed Funding
+        "68b67a1539400d687b630846", // Business Incubators
+      ],
       createdBy: "68b4975eac3eeb1342627128", // Ali Raza
       published: false,
       createdAt: "2025-09-01T17:45:00.000Z",
@@ -185,12 +218,12 @@ const seedArticles = async () => {
       slug: "ai-powered-personal-assistants",
       content:
         "Virtual assistants like Siri, Alexa, and Google Assistant leverage natural language processing and AI to make daily tasks easier for millions of users.",
-      categories: ["68b5d30d1d2e853054b27733"], // AI
+      categories: ["68b5d30d1d2e853054b2773a"], // AI
       tags: [
-        "68b67a1539400d687b63083c",
-        "68b67a1539400d687b630842",
-        "68b67a1539400d687b630847",
-      ], // NLP, Voice Recognition, Chatbots
+        "68b67a1539400d687b63083c", // NLP
+        "68b67a1539400d687b630842", // Voice Recognition
+        "68b67a1539400d687b630847", // Chatbots
+      ],
       createdBy: "68b4975eac3eeb134262712e", // Hassan Raza
       published: true,
       createdAt: "2025-09-01T17:50:00.000Z",
@@ -205,10 +238,10 @@ const seedArticles = async () => {
         "Remote work has become a norm after the pandemic, supported by collaboration tools and cloud-based platforms that enable distributed teams to thrive.",
       categories: ["68b5d30d1d2e853054b27733"], // Cloud Computing
       tags: [
-        "68b67a1539400d687b630848",
-        "68b67a1539400d687b63084a",
-        "68b67a1539400d687b630853",
-      ], // Remote Work, Collaboration Tools, Digital Nomads
+        "68b67a1539400d687b630848", // Remote Work
+        "68b67a1539400d687b63084a", // Collaboration Tools
+        "68b67a1539400d687b630853", // Digital Nomads
+      ],
       createdBy: "68b4975eac3eeb134262712d", // Maryam Iqbal
       published: true,
       createdAt: "2025-09-01T18:10:00.000Z",

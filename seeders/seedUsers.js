@@ -16,21 +16,23 @@ const seedUsers = async () => {
       fullName: "Admin User",
       email: "admin@example.com",
       role: "admin",
-      otp: "1234",
-      otpExpiresAt: "2025-12-31T23:59:59.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$o.s4Aq7LAQr3kxim/KcOL.kAzL6lGMqXAHNTsoflOTLMoglveeVb.", // pswd: admin123
       profilePicture: "https://example.com/profiles/admin.jpg",
       phone: "+923330000001",
       city: "Lahore",
       gender: "female",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
-      categoriesOwned: [
-        "68b5d30d1d2e853054b27734", 
-        "68b5d30d1d2e853054b2772f",
+      categoriesCreated: [
+        "68b5d30d1d2e853054b27734", // Internet of Things
+        "68b5d30d1d2e853054b2772f", // Machine Learning
       ],
       articlesCreated: [
-        "68b69d987af68da48f18e12c", // 1
-        "68b69d987af68da48f18e132", // 7
+        "68b69d987af68da48f18e12c", // Article 1
+        "68b69d987af68da48f18e132", // Article 7
       ],
       tagsCreated: [
         "68b67a1539400d687b630840", // Neural Networks
@@ -47,22 +49,24 @@ const seedUsers = async () => {
       fullName: "Ali Raza",
       email: "ali.raza@example.com",
       role: "user",
-      otp: "5678",
-      otpExpiresAt: "2025-11-20T10:45:00.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$0M3K0x6jZCg1DPX5HRdQGuYnIWGG32ny5J4KecHdqriGUJu4EkQki", // pswd: raza123
       profilePicture: "https://example.com/profiles/ali_raza.jpg",
       phone: "+923330000002",
       city: "Karachi",
       gender: "male",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
-      categoriesOwned: [
-        "68b5d30d1d2e853054b27730", 
-        "68b5d30d1d2e853054b27732",
+      categoriesCreated: [
+        "68b5d30d1d2e853054b27730", // Data Science
+        "68b5d30d1d2e853054b27732", // Cybersecurity
       ],
       articlesCreated: [
-        "68b69d987af68da48f18e12e", // 3
-        "68b69d987af68da48f18e135", // 10
-        "68b69d987af68da48f18e12d", // 2
+        "68b69d987af68da48f18e12e", // Article 3
+        "68b69d987af68da48f18e135", // Article 10
+        "68b69d987af68da48f18e12d", // Article 2
       ],
       tagsCreated: [
         "68b67a1539400d687b63083b", // Predictive Analytics
@@ -77,13 +81,15 @@ const seedUsers = async () => {
       fullName: "Sara Ahmed",
       email: "sara.ahmed@example.com",
       role: "user",
-      otp: "4321",
+      otp: 4321,
       otpExpiresAt: "2025-10-15T09:30:00.000Z",
       password: "$2b$10$C7myWPdEIkhSoMRW65oMDe1I/TQ90.nAYPImoqnLUKsNdHN3lGViy", // pswd: sara123
       profilePicture: "https://example.com/profiles/sara_ahmed.jpg",
       phone: "+923330000003",
       city: "Islamabad",
       gender: "female",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "inactive",
     },
     {
@@ -92,20 +98,20 @@ const seedUsers = async () => {
       fullName: "Bilal Khan",
       email: "bilal.khan@example.com",
       role: "user",
-      otp: "8765",
-      otpExpiresAt: "2025-09-05T14:20:00.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$L.vN2iuiK9VWhLPxmbR8uuUQ/DOjLiytFdP8km4DNcLNfHKjh0RfO", // pswd: bilal123
       profilePicture: "https://example.com/profiles/bilal_khan.jpg",
       phone: "+923330000004",
       city: "Faisalabad",
       gender: "male",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
-      categoriesOwned: [
-        "68b5d30d1d2e853054b27736",
-      ],
+      categoriesCreated: ["68b5d30d1d2e853054b27736"], // HealthTech
       articlesCreated: [
-        "68b69d987af68da48f18e134", // 9
-        "68b69d987af68da48f18e130", // 5
+        "68b69d987af68da48f18e134", // Article 9
+        "68b69d987af68da48f18e130", // Article 5
       ],
       tagsCreated: [
         "68b67a1539400d687b63084d", // Telemedicine
@@ -122,13 +128,15 @@ const seedUsers = async () => {
       fullName: "Ayesha Siddiqui",
       email: "ayesha.s@example.com",
       role: "user",
-      otp: "9876",
-      otpExpiresAt: "2025-08-01T08:00:00.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$eEaVZ8M0J/.lGmGIPdfAqecPFonVp.MI9J39GOjQYJxRMGY0H0pzy", // pswd: ayesha123
       profilePicture: "https://example.com/profiles/ayesha_siddiqui.jpg",
       phone: "+923330000005",
       city: "Multan",
       gender: "female",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
     },
     {
@@ -137,13 +145,15 @@ const seedUsers = async () => {
       fullName: "Usman Shah",
       email: "usman.shah@example.com",
       role: "user",
-      otp: "3456",
+      otp: 3456,
       otpExpiresAt: "2025-07-18T12:15:00.000Z",
       password: "$2b$10$YG5Dbl/HHK0Z1sTk3vcuFOGMw2FNZdokxUdNpY5qp18kANiwsDy6e", // pswd: usman123
       profilePicture: "https://example.com/profiles/usman_shah.jpg",
       phone: "+923330000006",
       city: "Peshawar",
       gender: "male",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "banned",
     },
     {
@@ -152,23 +162,25 @@ const seedUsers = async () => {
       fullName: "Maryam Iqbal",
       email: "maryam.iqbal@example.com",
       role: "user",
-      otp: "6789",
-      otpExpiresAt: "2025-06-10T11:00:00.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$W3U4dWdpRrtIe1XB0AZTxeKtb6WuHYUDPZsyb5079Piy/OJDod21a", // pswd: maryam123
       profilePicture: "https://example.com/profiles/maryam_iqbal.jpg",
       phone: "+923330000007",
       city: "Quetta",
       gender: "female",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
-      categoriesOwned: [
-        "68b5d30c1d2e853054b2772e",
-        "68b5d30d1d2e853054b27735",
-        "68b5d30d1d2e853054b27733",
+      categoriesCreated: [
+        "68b5d30c1d2e853054b2772e", // E-Learning
+        "68b5d30d1d2e853054b2773a", // Artificial Intelligence
+        "68b5d30d1d2e853054b27733", // Cloud Computing
       ],
       articlesCreated: [
-        "68b69d987af68da48f18e133", // 8
-        "68b69d987af68da48f18e131", // 6
-        "68b69d987af68da48f18e137", // 12
+        "68b69d987af68da48f18e133", // Article 8
+        "68b69d987af68da48f18e131", // Article 6
+        "68b69d987af68da48f18e137", // Article 12
       ],
       tagsCreated: [
         "68b67a1539400d687b630851", // Gamification
@@ -188,17 +200,17 @@ const seedUsers = async () => {
       fullName: "Hassan Raza",
       email: "hassan.raza@example.com",
       role: "user",
-      otp: "1281",
-      otpExpiresAt: "2025-05-22T16:45:00.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$okp0.JT.aGRCJPZ9IcqsEOZwP1dZoRtWW05i3wC7O7C2xVNR3XGIe", // pswd: hassan123
       profilePicture: "https://example.com/profiles/hassan_raza.jpg",
       phone: "+923330000008",
       city: "Sialkot",
       gender: "male",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
-      articlesCreated: [
-        "68b69d987af68da48f18e136", // 11
-      ],
+      articlesCreated: ["68b69d987af68da48f18e136"], // Article 11
       tagsCreated: [
         "68b67a1539400d687b63083c", // NLP
         "68b67a1539400d687b630842", // Voice Recognition
@@ -211,13 +223,15 @@ const seedUsers = async () => {
       fullName: "Noor Fatima",
       email: "noor.fatima@example.com",
       role: "user",
-      otp: "9822",
+      otp: 9822,
       otpExpiresAt: "2025-04-25T13:20:00.000Z",
       password: "$2b$10$wMfQdg9OuPAltmfiNKPWFuaKBFRuNXei21XXuQNcmASTqE0XooLIa", // pswd: noor123
       profilePicture: "https://example.com/profiles/noor_fatima.jpg",
       phone: "+923330000009",
       city: "Hyderabad",
       gender: "female",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "inactive",
     },
     {
@@ -226,20 +240,22 @@ const seedUsers = async () => {
       fullName: "Kamran Ali",
       email: "kamran.ali@example.com",
       role: "user",
-      otp: "3097",
-      otpExpiresAt: "2025-03-30T19:30:00.000Z",
+      otp: null,
+      otpExpiresAt: null,
       password: "$2b$10$FNwC8HNRBN56GPvX3qxgQ.QO/mm6doLOhjBbVf87LrMVrtbsjzgYO", // pswd: kamran123
       profilePicture: "https://example.com/profiles/kamran_ali.jpg",
       phone: "+923330000010",
       city: "Rawalpindi",
       gender: "male",
+      createdAt: "2025-09-01T17:00:00.000Z",
+      updatedAt: "2025-09-01T17:00:00.000Z",
       status: "active",
-      categoriesOwned: [
-        "68b5d30d1d2e853054b27737", 
-        "68b5d30d1d2e853054b27731",
+      categoriesCreated: [
+        "68b5d30d1d2e853054b27737", // Startups
+        "68b5d30d1d2e853054b27731", // Blockchain
       ],
       articlesCreated: [
-        "68b69d987af68da48f18e12f" // 4
+        "68b69d987af68da48f18e12f", // Article 4
       ],
       tagsCreated: [
         "68b67a1539400d687b63084c", // DApps

@@ -10,7 +10,7 @@ const runSeeder = async () => {
   await seedCategories();
   await seedArticles();
   await seedTags();
-  //   console.log("Seeding completed successfully.");
+  console.log("Seeding completed successfully.");
   process.exit();
 };
 

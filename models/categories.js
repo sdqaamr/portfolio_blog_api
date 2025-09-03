@@ -1,23 +1,30 @@
 import mongoose from "mongoose";
 
-const categorySchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    slug: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Users",
-    },
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  { timestamps: true }
-);
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  articles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Article",
+    },
+  ],
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 export default mongoose.model("Category", categorySchema);
