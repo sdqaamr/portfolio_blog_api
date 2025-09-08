@@ -9,9 +9,22 @@ import {
 import validateId from "../middlewares/validateId.js";
 import { verifyToken } from "../middlewares/auth.js";
 import checkBannedUser from "../middlewares/checkBanned.js";
+import roleBasedAccess from "../middlewares/roleBasedAccess.js";
 
 router.get("/", fetchCategories);
 router.post("/", verifyToken, checkBannedUser, createCategory);
-router.delete("/:id", verifyToken, checkBannedUser, validateId, deleteCategory);
+
+router.delete(
+  "/:id",
+  (req, res, next) => {
+    req.resourceType = "Category";
+    next();
+  },
+  verifyToken,
+  checkBannedUser,
+  validateId,
+  roleBasedAccess,
+  deleteCategory
+);
 
 export default router;

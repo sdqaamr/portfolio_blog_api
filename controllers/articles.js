@@ -124,7 +124,8 @@ const createArticle = async (req, res) => {
 let updateArticle = async (req, res) => {
   try {
     const articleId = req.params.id; // comes from URL /articles/:id
-    if (Object.keys(req.body).length === 0) {
+    let articleContent=req.body;
+    if (Object.keys(articleContent).length === 0) {
       return res.status(400).json({
         success: false,
         message: "No fields provided to update",
@@ -134,11 +135,14 @@ let updateArticle = async (req, res) => {
     }
     const forbiddenFields = ["createdBy", "createdAt", "updatedAt"];
     forbiddenFields.forEach((field) => {
-      if (field in req.body) {
-        delete req.body[field];
+      if (field in articleContent) {
+        delete articleContent[field];
       }
     });
-    const article = await Article.findByIdAndUpdate(articleId, req.body, {
+    // Todo: use role based access control to allow admin to update any article
+    // and normal user to update only their own articles
+    const userId = req.user.id;
+    const article = await Article.findByIdAndUpdate(articleId, articleContent, {
       new: true,
       runValidators: true,
     })
