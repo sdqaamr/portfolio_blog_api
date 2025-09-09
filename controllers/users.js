@@ -477,3 +477,18 @@ export {
   changePassword,
   updateProfile,
 };
+
+// // 🔥 Case 1: Delete thumbnail
+//     if (action === "delete") {
+//       if (article.thumbnail?.publicId) {
+//         await deleteFromCloudinary(article.thumbnail.publicId);
+//       }
+//       article.thumbnail = null;
+//       await article.save();
+//       return res.status(200).json({
+//         success: true,
+//         message: "Thumbnail deleted successfully",
+//         data: article,
+//         error: null,
+//       });
+//     }

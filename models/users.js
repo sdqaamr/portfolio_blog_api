@@ -32,8 +32,8 @@ const usersSchema = mongoose.Schema(
     },
     password: String,
     profilePicture: {
-      type: String,
-      default: "default.png",
+      url: { type: String },
+      publicId: { type: String },
     },
     phone: String,
     city: String,

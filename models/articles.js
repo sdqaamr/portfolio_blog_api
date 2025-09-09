@@ -35,6 +35,10 @@ const articleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    thumbnail: {
+      url: { type: String },
+      publicId: { type: String },
+    },
   },
   { timestamps: true }
 );
