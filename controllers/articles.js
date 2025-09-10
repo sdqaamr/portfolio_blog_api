@@ -1,7 +1,6 @@
 import Article from "../models/articles.js";
 import mongoose from "mongoose";
 import { deleteFromCloudinary } from "../middlewares/cloudinary.js";
-import { parseFormDataArrays } from "../utils/parseFormData.js";
 
 let getArticle = async (req, res) => {
   try {
@@ -47,11 +46,7 @@ let getArticle = async (req, res) => {
 
 const createArticle = async (req, res) => {
   try {
-    const { title = "", slug = "", content = "" } = req.body;
-    const { categories, tags } = parseFormDataArrays(req.body, [
-      "categories",
-      "tags",
-    ]);
+    let { title, slug, content, categories, tags } = req.body;
     const validationErrors = [];
     if (!title) {
       validationErrors.push("Title is required");
@@ -68,8 +63,12 @@ const createArticle = async (req, res) => {
     if (!tags || tags.length === 0) {
       validationErrors.push("At least one tag is required");
     }
-    // ✅ Validate ObjectIds of categories and tags
+
     const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
+
+    categories = JSON.parse(categories);
+    tags = JSON.parse(tags);
+
     categories.forEach((id) => {
       if (!isValidObjectId(id)) {
         validationErrors.push(`Invalid category ID: ${id}`);
@@ -80,10 +79,7 @@ const createArticle = async (req, res) => {
         validationErrors.push(`Invalid tag ID: ${id}`);
       }
     });
-    // 🔍 Uniqueness check
-    if (await Article.findOne({ slug })) {
-      validationErrors.push("Slug already exists");
-    }
+
     if (validationErrors.length > 0) {
       return res.status(400).json({
         success: false,
@@ -93,15 +89,16 @@ const createArticle = async (req, res) => {
       });
     }
     const user = req.user;
+    const thumbnail = req.cloudinaryFile || null;
+
     const article = new Article({
       title,
       slug,
       content,
       categories,
       tags,
+      thumbnail,
       createdBy: user.id,
-      thumbnail: req.cloudinaryFile || null,
-      published: false,
     });
     await article.save();
     await article.populate("categories", ["name"]);
@@ -123,11 +120,30 @@ const createArticle = async (req, res) => {
   }
 };
 
-const updateArticle = async (req, res) => {
+let updateArticle = async (req, res) => {
   try {
-    const articleId = req.params.id;
-    let articleContent = parseFormDataArrays(req.body, ["categories", "tags"]);
-    const article = await Article.findById(articleId);
+    const articleId = req.params.id; // comes from URL /articles/:id
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No fields provided to update",
+        data: null,
+        error: null,
+      });
+    }
+    const forbiddenFields = ["createdBy", "createdAt", "updatedAt"];
+    forbiddenFields.forEach((field) => {
+      if (field in req.body) {
+        delete req.body[field];
+      }
+    });
+    const article = await Article.findByIdAndUpdate(articleId, req.body, {
+      new: true,
+      runValidators: true,
+    })
+      .populate("categories", ["name"])
+      .populate("tags", ["name"])
+      .populate("createdBy", ["fullName"]);
     if (!article) {
       return res.status(404).json({
         success: false,
@@ -136,41 +152,10 @@ const updateArticle = async (req, res) => {
         error: null,
       });
     }
-    const forbiddenFields = [
-      "createdBy",
-      "published",
-      "createdAt",
-      "updatedAt",
-    ];
-    forbiddenFields.forEach((field) => {
-      if (field in req.body) delete req.body[field];
-      if (field in articleContent) delete articleContent[field];
-    });
-    // ✅ Only update thumbnail if new one is provided
-    if (req.cloudinaryFile) {
-      if (article.thumbnail?.publicId) {
-        await deleteFromCloudinary(article.thumbnail.publicId);
-      }
-      articleContent.thumbnail = req.cloudinaryFile;
-    } else {
-      // 🔥 Preserve existing thumbnail
-      articleContent.thumbnail = article.thumbnail;
-    }
-    const updatedArticle = await Article.findByIdAndUpdate(
-      articleId,
-      articleContent,
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
-      .populate("categories", ["name"])
-      .populate("tags", ["name"])
-      .populate("createdBy", ["fullName"]);
     res.status(200).json({
       success: true,
       message: "Article updated successfully",
-      data: updatedArticle,
+      data: article,
       error: null,
     });
   } catch (error) {
@@ -278,9 +263,8 @@ const deleteArticle = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    // 1️⃣ Find article first (to get thumbnail)
-    const article = await Article.findOne({ _id: id, createdBy: userId });
-    if (!article) {
+    const article = await Article.deleteOne({ _id: id, createdBy: userId });
+    if (article.deletedCount === 0) {
       return res.status(404).json({
         success: false,
         message: "Article not found or not owned by user",
@@ -288,16 +272,10 @@ const deleteArticle = async (req, res) => {
         error: null,
       });
     }
-    // 2️⃣ Delete thumbnail from Cloudinary
-    if (article.thumbnail?.publicId) {
-      await deleteFromCloudinary(article.thumbnail.publicId);
-    }
-    // 3️⃣ Delete using deleteOne()
-    await Article.deleteOne({ _id: id, createdBy: userId });
     res.status(200).json({
       success: true,
       message: "Article deleted successfully",
-      data: null,
+      data: article,
       error: null,
     });
   } catch (error) {

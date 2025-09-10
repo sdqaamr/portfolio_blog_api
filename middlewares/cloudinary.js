@@ -1,47 +1,40 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
 import { v2 as cloudinary } from "cloudinary";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 export const uploadToCloudinary = async (req, res, next) => {
   try {
     if (!req.file) {
-      return next(); // no file provided
+      return next();
     }
 
-    // ✅ Ensure uploads directory exists
-    const uploadsDir = path.join(__dirname, "../uploads");
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
+    const streamUpload = (buffer) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { resource_type: "auto" },
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        stream.end(buffer);
+      });
+    };
 
-    const tempFilePath = path.join(
-      __dirname,
-      "../uploads/",
-      req.file.originalname
-    );
-    fs.writeFileSync(tempFilePath, req.file.buffer);
+    const result = await streamUpload(req.file.buffer);
 
-    const result = await cloudinary.uploader.upload(tempFilePath, {
-      resource_type: "auto",
-    });
-
-    // ✅ Save both URL and public_id
     req.cloudinaryFile = {
       url: result.secure_url,
       publicId: result.public_id,
     };
 
-    fs.unlinkSync(tempFilePath);
     next();
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
-      message: "Image upload failed",
+      message: "File is not uploaded to Cloudinary",
       error: error.message,
     });
   }

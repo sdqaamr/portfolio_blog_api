@@ -17,14 +17,8 @@ import upload from "../middlewares/upload.js";
 import { uploadToCloudinary } from "../middlewares/cloudinary.js";
 
 router.get("/:id", validateId, getArticle);
-router.post(
-  "/",
-  verifyToken,
-  checkBannedUser,
-  upload.single("thumbnail"),
-  uploadToCloudinary,
-  createArticle
-);
+router.post("/", verifyToken, checkBannedUser,upload.single("thumbnail"),
+  uploadToCloudinary, createArticle);
 
 router.put(
   "/:id",
@@ -36,8 +30,6 @@ router.put(
   checkBannedUser,
   validateId,
   roleBasedAccess,
-  upload.single("thumbnail"),
-  uploadToCloudinary,
   updateArticle
 );
 
