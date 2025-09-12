@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
-import Tag from "./tags.js";
 
 const usersSchema = mongoose.Schema(
   {
-    fullName: String,
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -11,9 +14,8 @@ const usersSchema = mongoose.Schema(
       lowercase: true,
       trim: true,
       validate: {
-        validator: function (v) {
-          return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v);
-        },
+        validator: (v) =>
+          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(v),
         message: (props) => `${props.value} is not a valid email!`,
       },
     },
@@ -22,6 +24,29 @@ const usersSchema = mongoose.Schema(
       enum: ["admin", "user"],
       default: "user",
     },
+    password: {
+      type: String,
+      required: true,
+    },
+    profilePicture: {
+      url: {
+        type: String,
+        default: "placeholder.png",
+      },
+      publicId: { type: String },
+    },
+    phone: {
+      type: String,
+      default: null,
+    },
+    city: {
+      type: String,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+    },
     otp: {
       type: Number,
       default: null,
@@ -29,17 +54,6 @@ const usersSchema = mongoose.Schema(
     otpExpiresAt: {
       type: Date,
       default: null,
-    },
-    password: String,
-    profilePicture: {
-      url: { type: String },
-      publicId: { type: String },
-    },
-    phone: String,
-    city: String,
-    gender: {
-      type: String,
-      enum: ["male", "female"],
     },
     status: {
       type: String,

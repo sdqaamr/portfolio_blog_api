@@ -13,12 +13,7 @@ const checkBannedUser = async (req, res, next) => {
     }
     next();
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 

@@ -28,8 +28,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb1342627127", // Admin User
       published: true,
-      createdAt: "2025-09-01T17:00:00.000Z",
-      updatedAt: "2025-09-01T17:00:00.000Z",
     },
     {
       // 2
@@ -48,8 +46,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb1342627128", // Ali Raza
       published: true,
-      createdAt: "2025-09-01T17:05:00.000Z",
-      updatedAt: "2025-09-01T17:05:00.000Z",
     },
     {
       // 3
@@ -65,8 +61,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb1342627128", // Ali Raza
       published: false,
-      createdAt: "2025-09-01T17:10:00.000Z",
-      updatedAt: "2025-09-01T17:10:00.000Z",
     },
     {
       // 4
@@ -86,8 +80,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb1342627130", // Kamran Ali
       published: true,
-      createdAt: "2025-09-01T17:15:00.000Z",
-      updatedAt: "2025-09-01T17:15:00.000Z",
     },
     {
       // 5
@@ -107,8 +99,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb134262712a", // Bilal Khan
       published: false,
-      createdAt: "2025-09-01T17:20:00.000Z",
-      updatedAt: "2025-09-01T17:20:00.000Z",
     },
     {
       // 6
@@ -128,8 +118,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb134262712d", // Maryam Iqbal
       published: true,
-      createdAt: "2025-09-01T17:25:00.000Z",
-      updatedAt: "2025-09-01T17:25:00.000Z",
     },
     {
       // 7
@@ -149,8 +137,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb1342627127", // Admin User
       published: false,
-      createdAt: "2025-09-01T17:30:00.000Z",
-      updatedAt: "2025-09-01T17:30:00.000Z",
     },
     {
       // 8
@@ -170,8 +156,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb134262712d", // Maryam Iqbal
       published: true,
-      createdAt: "2025-09-01T17:35:00.000Z",
-      updatedAt: "2025-09-01T17:35:00.000Z",
     },
     {
       // 9
@@ -188,8 +172,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb134262712a", // Bilal Khan
       published: true,
-      createdAt: "2025-09-01T17:40:00.000Z",
-      updatedAt: "2025-09-01T17:40:00.000Z",
     },
     {
       // 10
@@ -208,8 +190,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb1342627128", // Ali Raza
       published: false,
-      createdAt: "2025-09-01T17:45:00.000Z",
-      updatedAt: "2025-09-01T17:45:00.000Z",
     },
     {
       // 11
@@ -226,8 +206,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb134262712e", // Hassan Raza
       published: true,
-      createdAt: "2025-09-01T17:50:00.000Z",
-      updatedAt: "2025-09-01T17:50:00.000Z",
     },
     {
       // 12
@@ -244,8 +222,6 @@ const seedArticles = async () => {
       ],
       createdBy: "68b4975eac3eeb134262712d", // Maryam Iqbal
       published: true,
-      createdAt: "2025-09-01T18:10:00.000Z",
-      updatedAt: "2025-09-01T18:10:00.000Z",
     },
   ];
 

@@ -1,22 +1,56 @@
 import Article from "../models/articles.js";
+import Category from "../models/categories.js";
 import mongoose from "mongoose";
 import { deleteFromCloudinary } from "../middlewares/cloudinary.js";
 
-let getArticle = async (req, res) => {
+const getArticles = async (req, res) => {
+  try {
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 5);
+    const skip = (page - 1) * limit;
+
+    const [total, articles] = await Promise.all([
+      Article.countDocuments(),
+      Article.find()
+        .skip(skip)
+        .limit(limit)
+        .select([
+          "title",
+          "content",
+          "tags",
+          "categories",
+          "thumbnail",
+          "createdBy",
+          "published",
+          "createdAt",
+          "updatedAt",
+        ])
+        .populate("categories", ["name"])
+        .populate("tags", ["name"])
+        .populate("createdBy", ["fullName"]),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: "Articles fetched successfully",
+      data: articles,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+      error: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getArticle = async (req, res) => {
   try {
     const { id } = req.params;
     const article = await Article.findById(id)
-      .select([
-        "title",
-        "slug",
-        "content",
-        "tags",
-        "categories",
-        "createdBy",
-        "published",
-        "createdAt",
-        "updatedAt",
-      ])
       .populate("categories", ["name"])
       .populate("tags", ["name"])
       .populate("createdBy", ["fullName"]);
@@ -25,7 +59,7 @@ let getArticle = async (req, res) => {
         success: false,
         message: "Article not found",
         data: null,
-        error: null, //execution is successfull
+        error: ["No article exists with the given ID"],
       });
     }
     res.status(200).json({
@@ -35,12 +69,7 @@ let getArticle = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -79,6 +108,11 @@ const createArticle = async (req, res) => {
         validationErrors.push(`Invalid tag ID: ${id}`);
       }
     });
+    // Validate categories exist
+    const foundCategories = await Category.find({ _id: { $in: categories } });
+    if (foundCategories.length !== categories.length) {
+      validationErrors.push("One or more category IDs do not exist");
+    }
 
     if (validationErrors.length > 0) {
       return res.status(400).json({
@@ -111,27 +145,20 @@ const createArticle = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
-let updateArticle = async (req, res) => {
+const updateArticle = async (req, res) => {
   try {
     const articleId = req.params.id; // comes from URL /articles/:id
-    if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No fields provided to update",
-        data: null,
-        error: null,
-      });
-    }
-    const forbiddenFields = ["createdBy", "createdAt", "updatedAt"];
+
+    const forbiddenFields = [
+      "createdBy",
+      "createdAt",
+      "updatedAt",
+      "thumbnail",
+    ];
     forbiddenFields.forEach((field) => {
       if (field in req.body) {
         delete req.body[field];
@@ -149,7 +176,7 @@ let updateArticle = async (req, res) => {
         success: false,
         message: "Article not found",
         data: null,
-        error: null,
+        error: ["No article exists with the given ID"],
       });
     }
     res.status(200).json({
@@ -159,22 +186,27 @@ let updateArticle = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 // PATCH /articles/:id/thumbnail
-const updateArticleThumbnail = async (req, res) => {
+const updateArticleThumbnail = async (req, res, next) => {
   try {
     const { id } = req.params;
     const action = req.body?.action || "update";
 
     const article = await Article.findById(id)
+      .select([
+        "thumbnail",
+        "updatedAt",
+        "title",
+        "content",
+        "tags",
+        "categories",
+        "createdBy",
+        "published",
+      ])
       .populate("categories", ["name"])
       .populate("tags", ["name"])
       .populate("createdBy", ["fullName"]);
@@ -184,7 +216,7 @@ const updateArticleThumbnail = async (req, res) => {
         success: false,
         message: "Article not found",
         data: null,
-        error: null,
+        error: ["No article exists with the given ID"],
       });
     }
     // Add / Update thumbnail
@@ -208,15 +240,10 @@ const updateArticleThumbnail = async (req, res) => {
       success: false,
       message: "No thumbnail file provided",
       data: null,
-      error: null,
+      error: ["Thumbnail image is required"],
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -225,6 +252,16 @@ const toggleArticlePublish = async (req, res) => {
   try {
     const { id } = req.params;
     const article = await Article.findById(id)
+      .select([
+        "title",
+        "content",
+        "published",
+        "tags",
+        "categories",
+        "createdBy",
+        "thumbnail",
+        "updatedAt",
+      ])
       .populate("categories", ["name"])
       .populate("tags", ["name"])
       .populate("createdBy", ["fullName"]);
@@ -234,7 +271,7 @@ const toggleArticlePublish = async (req, res) => {
         success: false,
         message: "Article not found",
         data: null,
-        error: null,
+        error: ["No article exists with the given ID"],
       });
     }
 
@@ -250,12 +287,7 @@ const toggleArticlePublish = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -263,13 +295,13 @@ const deleteArticle = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    const article = await Article.deleteOne({ _id: id, createdBy: userId });
+    const article = await Article.deleteOne({ _id: id });
     if (article.deletedCount === 0) {
       return res.status(404).json({
         success: false,
         message: "Article not found or not owned by user",
         data: null,
-        error: null,
+        error: ["Article resource is unavailable"],
       });
     }
     res.status(200).json({
@@ -279,16 +311,12 @@ const deleteArticle = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 export {
+  getArticles,
   getArticle,
   createArticle,
   updateArticle,

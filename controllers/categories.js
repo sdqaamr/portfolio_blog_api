@@ -1,6 +1,6 @@
 import Category from "../models/categories.js";
 
-const fetchCategories = async (req, res) => {
+const getCategories = async (req, res) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 5);
@@ -11,6 +11,7 @@ const fetchCategories = async (req, res) => {
       Category.find()
         .skip(skip)
         .limit(limit)
+        .populate("articles", ["title"])
         .populate("createdBy", ["fullName"]),
     ]);
 
@@ -27,18 +28,13 @@ const fetchCategories = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 const createCategory = async (req, res) => {
   try {
-    const { name = "", slug = "" } = req.body;
+    const { name, slug } = req.body;
     const validationErrors = [];
     if (!name) {
       validationErrors.push("Category name is required");
@@ -72,12 +68,7 @@ const createCategory = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -85,13 +76,13 @@ const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    const category = await Category.deleteOne({ _id: id, createdBy: userId });
+    const category = await Category.deleteOne({ _id: id });
     if (category.deletedCount === 0) {
       return res.status(404).json({
         success: false,
         message: "Category not found or not owned by user",
         data: null,
-        error: null,
+        error: ["Article resource is unavailable"],
       });
     }
     res.status(200).json({
@@ -101,13 +92,8 @@ const deleteCategory = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
-export { fetchCategories, createCategory, deleteCategory };
+export { getCategories, createCategory, deleteCategory };

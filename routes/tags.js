@@ -1,14 +1,16 @@
 import express from "express";
 const router = express.Router();
 
-import { fetchTags, createTag, deleteTag } from "../controllers/tags.js";
+import { getTags, createTag, deleteTag } from "../controllers/tags.js";
 import validateId from "../middlewares/validateId.js";
-import { verifyToken } from "../middlewares/auth.js";
+import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 import checkBannedUser from "../middlewares/checkBanned.js";
-import roleBasedAccess from "../middlewares/roleBasedAccess.js";
+import { roleBasedAccess } from "../middlewares/roleBasedAccess.js";
+import { checkRequestBody } from "../middlewares/validateRequest.js";
 
-router.get("/", fetchTags);
-router.post("/", verifyToken, checkBannedUser, createTag);
+router.get("/", getTags);
+
+router.post("/", verifyToken, checkBannedUser, checkRequestBody, createTag);
 
 router.delete(
   "/:id",

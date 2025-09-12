@@ -6,6 +6,7 @@ import articleRoutes from "./routes/articles.js";
 import tagRoutes from "./routes/tags.js";
 import { apiRateLimit } from "./middlewares/api-limit.js";
 import dbConnect from "./config/database.js";
+import jsonErrorHandler from "./middlewares/jsonErrorHandler.js";
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -52,6 +53,8 @@ app.use((req, res, next) => {
     error: "Route not found",
   });
 });
+
+app.use(jsonErrorHandler);
 
 const port = process.env.PORT || 3000;
 const host = process.env.HOST || "localhost";

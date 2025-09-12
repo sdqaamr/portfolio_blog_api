@@ -26,7 +26,7 @@ const roleBasedAccess = async (req, res, next) => {
       success: false,
       message: "Invalid resource type",
       data: null,
-      error: null,
+      error: [`Resource type '${resourceType}' is not supported`],
     });
   }
 
@@ -43,7 +43,7 @@ const roleBasedAccess = async (req, res, next) => {
         success: false,
         message: `${resourceType} not found`,
         data: null,
-        error: null,
+        error: [`No ${resourceType} exists with the given ID`],
       });
     }
     // Ownership check: resource.createdBy === user.id
@@ -52,18 +52,25 @@ const roleBasedAccess = async (req, res, next) => {
         success: false,
         message: `Access denied: not owner of this ${resourceType}`,
         data: null,
-        error: null,
+        error: [`User ${user.id} does not own this ${resourceType}`],
       });
     }
     next();
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
-export default roleBasedAccess;
+const adminOnly = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({
+      success: false,
+      message: "Access denied: Admins only",
+      data: null,
+      error: ["You are not authorized to perform this action"],
+    });
+  }
+  next();
+};
+
+export { roleBasedAccess, adminOnly };

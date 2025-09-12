@@ -12,51 +12,39 @@ const getProfile = async (req, res) => {
         "fullName",
         "email",
         "role",
-        "city",
         "profilePicture",
-        "status",
         "phone",
+        "city",
         "createdAt",
-        "otpExpiresAt",
         "categoriesCreated",
+        "articlesCreated",
+        "tagsCreated",
+        "createdAt",
       ])
-      .populate("categoriesCreated", ["name", "slug"]);
+      .populate("categoriesCreated", ["name"])
+      .populate("articlesCreated", ["title"])
+      .populate("tagsCreated", ["name"]);
     if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found",
         data: null,
-        error: null, //execution is successfull
+        error: ["No user exists with the given ID"],
       });
     }
     res.status(200).json({
       success: true,
       message: "User data is fetched successfully",
-      data: {
-        fullName: user.fullName,
-        email: user.email,
-        role: user.role,
-        createdAt: user.createdAt,
-        status: user.status,
-        profilePicture: user.profilePicture,
-        city: user.city,
-        phone: user.phone,
-        otpExpiresAt: user.otpExpiresAt,
-      },
+      data: user,
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 // Create a new user account
-const signupUser = async (req, res) => {
+const register = async (req, res) => {
   try {
     let { fullName, email, password, confirmPassword, role } = req.body;
     let validationErrors = [];
@@ -94,7 +82,8 @@ const signupUser = async (req, res) => {
     }
     const hash = await bcrypt.hash(password, 10);
     const otp = Math.floor(1000 + Math.random() * 9000);
-    const otpExpiresAt = Date.now() + 10 * 60 * 1000;
+    const otpTTLMinutes = parseInt(process.env.OTP_TTL_MINUTES, 10) || 10;
+    const otpExpiresAt = Date.now() + otpTTLMinutes * 60 * 1000;
     const user = new Users({
       fullName,
       email,
@@ -104,7 +93,12 @@ const signupUser = async (req, res) => {
       otpExpiresAt,
     });
     await user.save();
-    sendEmail(email, "Verify your email", String(otp));
+    sendEmail(email, "Verify your email", {
+      otp,
+      otpExpiresAt,
+      otpTTLMinutes,
+      fullName,
+    });
     res.status(201).json({
       success: true,
       message: "User created successfully",
@@ -113,22 +107,14 @@ const signupUser = async (req, res) => {
         email: user.email,
         role: user.role,
         profilePicture: user.profilePicture,
-        phone: user.phone,
-        city: user.city,
-        gender: user.gender,
-        createdAt: user.createdAt,
         otpExpiresAt: user.otpExpiresAt,
         status: user.status,
+        createdAt: user.createdAt,
       },
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -157,7 +143,7 @@ const verifyEmail = async (req, res) => {
         success: false,
         message: "User not found",
         data: null,
-        error: null,
+        error: ["No user exists with the given email"],
       });
     }
     // ✅ Check OTP validity
@@ -195,12 +181,7 @@ const verifyEmail = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -222,7 +203,7 @@ const resendOtp = async (req, res) => {
         success: false,
         message: "User not found",
         data: null,
-        error: null,
+        error: ["No user exists with the given email"],
       });
     }
     if (user.status === "active") {
@@ -237,12 +218,18 @@ const resendOtp = async (req, res) => {
     }
     // Generate new OTP
     const otp = Math.floor(1000 + Math.random() * 9000);
+    const otpTTLMinutes = parseInt(process.env.OTP_TTL_MINUTES, 10) || 10;
     user.otp = otp;
-    user.otpExpiresAt = Date.now() + 10 * 60 * 1000;
+    user.otpExpiresAt = Date.now() + otpTTLMinutes * 60 * 1000;
     await user.save();
 
     // Send OTP email
-    await sendEmail(user.email, "Resend OTP - Verify your email", String(otp));
+    await sendEmail(user.email, "Resend OTP - Verify your email", {
+      otp,
+      otpExpiresAt: user.otpExpiresAt,
+      otpTTLMinutes,
+      fullName: user.fullName,
+    });
     console.log("📧 Resending OTP:", otp, "to", user.email);
     res.status(200).json({
       success: true,
@@ -251,23 +238,18 @@ const resendOtp = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 // Login to existing account
-const loginUser = async (req, res) => {
+const login = async (req, res) => {
   try {
     let { email, password } = req.body;
-    const user = await Users.findOne({ email: email }).populate(
-      "categoriesCreated",
-      ["name", "slug"]
-    );
+    const user = await Users.findOne({ email: email })
+      .populate("categoriesCreated", ["name"])
+      .populate("articlesCreated", ["title"])
+      .populate("tagsCreated", ["name"]);
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -313,23 +295,18 @@ const loginUser = async (req, res) => {
           email: user.email,
           role: user.role,
           profilePicture: user.profilePicture,
-          phone: user.phone,
-          city: user.city,
-          gender: user.gender,
-          createdAt: user.createdAt,
+          otpExpiresAt: user.otpExpiresAt,
           status: user.status,
+          createdAt: user.createdAt,
           categoriesCreated: user.categoriesCreated,
+          articlesCreated: user.articlesCreated,
+          tagsCreated: user.tagsCreated,
         },
       },
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -368,7 +345,7 @@ const changePassword = async (req, res) => {
         success: false,
         message: "User not found",
         data: null,
-        error: null,
+        error: ["No user exists with the given ID"],
       });
     }
     const isMatch = await bcrypt.compare(oldPassword, user.password);
@@ -390,38 +367,27 @@ const changePassword = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 // Update User Profile
 const updateProfile = async (req, res) => {
   try {
-    const userId = req.user.id; // Comes from verifyToken middleware
-    if (Object.keys(req.body).length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No fields provided to update",
-        data: null,
-        error: null,
-      });
-    }
+    const userId = req.user.id;
     // Prevent email, otp, role, and password etc. updates
     const forbiddenFields = [
       "email",
       "role",
+      "password",
       "otp",
       "otpExpiresAt",
-      "password",
       "createdAt",
       "updatedAt",
       "status",
       "categoriesCreated",
+      "articlesCreated",
+      "tagsCreated",
     ];
     forbiddenFields.forEach((field) => {
       if (field in req.body) {
@@ -435,13 +401,11 @@ const updateProfile = async (req, res) => {
       "fullName",
       "email",
       "role",
-      "city",
       "profilePicture",
-      "status",
       "phone",
+      "city",
       "createdAt",
       "updatedAt",
-      "otpExpiresAt",
     ]);
 
     if (!user) {
@@ -449,7 +413,7 @@ const updateProfile = async (req, res) => {
         success: false,
         message: "User not found",
         data: null,
-        error: null,
+        error: ["No user exists with the given ID"],
       });
     }
     res.status(200).json({
@@ -459,36 +423,16 @@ const updateProfile = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 export {
   getProfile,
-  signupUser,
+  register,
   verifyEmail,
   resendOtp,
-  loginUser,
+  login,
   changePassword,
   updateProfile,
 };
-
-// // 🔥 Case 1: Delete thumbnail
-//     if (action === "delete") {
-//       if (article.thumbnail?.publicId) {
-//         await deleteFromCloudinary(article.thumbnail.publicId);
-//       }
-//       article.thumbnail = null;
-//       await article.save();
-//       return res.status(200).json({
-//         success: true,
-//         message: "Thumbnail deleted successfully",
-//         data: article,
-//         error: null,
-//       });
-//     }

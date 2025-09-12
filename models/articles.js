@@ -4,12 +4,15 @@ const articleSchema = new mongoose.Schema(
   {
     title: {
       type: String,
+      trim: true,
     },
     slug: {
       type: String,
+      trim: true,
     },
     content: {
       type: String,
+      trim: true,
     },
     tags: [
       {
@@ -26,13 +29,17 @@ const articleSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",
+      required: true,
     },
     published: {
       type: Boolean,
       default: false,
     },
     thumbnail: {
-      url: { type: String },
+      url: {
+        type: String,
+        default: null,
+      },
       publicId: { type: String },
     },
   },

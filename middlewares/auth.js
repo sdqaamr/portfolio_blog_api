@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-let verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   try {
     let token = req.headers.authorization;
     if (!token) {
@@ -25,13 +25,22 @@ let verifyToken = (req, res, next) => {
       next();
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
-export { verifyToken };
+const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: "Forbidden: You don't have enough permissions",
+        data: null,
+        error: ["Access denied"],
+      });
+    }
+    next();
+  };
+};
+
+export { verifyToken, authorizeRoles };

@@ -1,6 +1,6 @@
 import Tag from "../models/tags.js";
 
-const fetchTags = async (req, res) => {
+const getTags = async (req, res) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 5);
@@ -8,7 +8,11 @@ const fetchTags = async (req, res) => {
 
     const [total, tags] = await Promise.all([
       Tag.countDocuments(),
-      Tag.find().skip(skip).limit(limit).populate("createdBy", ["fullName"]),
+      Tag.find()
+        .skip(skip)
+        .limit(limit)
+        .populate("articles", ["title"])
+        .populate("createdBy", ["fullName"]),
     ]);
 
     res.status(200).json({
@@ -24,18 +28,13 @@ const fetchTags = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
 const createTag = async (req, res) => {
   try {
-    const { name = "", slug = "" } = req.body;
+    const { name, slug } = req.body;
     const validationErrors = [];
     if (!name) {
       validationErrors.push("Tag name is required");
@@ -69,12 +68,7 @@ const createTag = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
@@ -82,13 +76,13 @@ const deleteTag = async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    const tag = await Tag.deleteOne({ _id: id, createdBy: userId });
+    const tag = await Tag.deleteOne({ _id: id });
     if (tag.deletedCount === 0) {
       return res.status(404).json({
         success: false,
         message: "Tag not found or not owned by user",
         data: null,
-        error: null,
+        error: ["Article resource is unavailable"],
       });
     }
     res.status(200).json({
@@ -98,13 +92,8 @@ const deleteTag = async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Internal server error",
-      data: null,
-      error: error.message,
-    });
+    next(error);
   }
 };
 
-export { fetchTags, createTag, deleteTag };
+export { getTags, createTag, deleteTag };

@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 
 import {
+  getArticles,
   getArticle,
   createArticle,
   updateArticle,
@@ -10,15 +11,25 @@ import {
   deleteArticle,
 } from "../controllers/articles.js";
 import validateId from "../middlewares/validateId.js";
-import { verifyToken } from "../middlewares/auth.js";
+import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
 import checkBannedUser from "../middlewares/checkBanned.js";
-import roleBasedAccess from "../middlewares/roleBasedAccess.js";
+import { roleBasedAccess } from "../middlewares/roleBasedAccess.js";
 import upload from "../middlewares/upload.js";
 import { uploadToCloudinary } from "../middlewares/cloudinary.js";
+import { checkRequestBody } from "../middlewares/validateRequest.js";
+
+router.get("/", getArticles);
 
 router.get("/:id", validateId, getArticle);
-router.post("/", verifyToken, checkBannedUser,upload.single("thumbnail"),
-  uploadToCloudinary, createArticle);
+
+router.post(
+  "/",
+  verifyToken,
+  checkBannedUser,
+  upload.single("thumbnail"),
+  uploadToCloudinary,
+  createArticle
+);
 
 router.put(
   "/:id",
@@ -30,6 +41,7 @@ router.put(
   checkBannedUser,
   validateId,
   roleBasedAccess,
+  checkRequestBody,
   updateArticle
 );
 
@@ -50,9 +62,14 @@ router.patch(
 
 router.patch(
   "/:id/toggle",
+  (req, res, next) => {
+    req.resourceType = "Article";
+    next();
+  },
   verifyToken,
   checkBannedUser,
   validateId,
+  roleBasedAccess,
   toggleArticlePublish
 );
 
