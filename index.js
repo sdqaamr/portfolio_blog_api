@@ -50,7 +50,7 @@ app.use((req, res, next) => {
     success: false,
     message: "The requested endpoint does not exist",
     data: null,
-    error: "Route not found",
+    error: ["Route not found"],
   });
 });
 

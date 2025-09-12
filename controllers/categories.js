@@ -1,6 +1,6 @@
 import Category from "../models/categories.js";
 
-const getCategories = async (req, res) => {
+const getCategories = async (req, res, next) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 5);
@@ -32,7 +32,7 @@ const getCategories = async (req, res) => {
   }
 };
 
-const createCategory = async (req, res) => {
+const createCategory = async (req, res, next) => {
   try {
     const { name, slug } = req.body;
     const validationErrors = [];
@@ -72,7 +72,7 @@ const createCategory = async (req, res) => {
   }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;

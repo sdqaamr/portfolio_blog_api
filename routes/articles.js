@@ -11,9 +11,9 @@ import {
   deleteArticle,
 } from "../controllers/articles.js";
 import validateId from "../middlewares/validateId.js";
-import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
+import verifyToken from "../middlewares/auth.js";
 import checkBannedUser from "../middlewares/checkBanned.js";
-import { roleBasedAccess } from "../middlewares/roleBasedAccess.js";
+import roleBasedAccess from "../middlewares/roleBasedAccess.js";
 import upload from "../middlewares/upload.js";
 import { uploadToCloudinary } from "../middlewares/cloudinary.js";
 import { checkRequestBody } from "../middlewares/validateRequest.js";

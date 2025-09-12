@@ -1,3 +1,4 @@
+import Users from "../models/users.js";
 import Article from "../models/articles.js";
 import Category from "../models/categories.js";
 import Tag from "../models/tags.js";
@@ -16,6 +17,7 @@ const roleBasedAccess = async (req, res, next) => {
 
   // Map resourceType to model
   const models = {
+    Users,
     Article,
     Category,
     Tag,
@@ -61,16 +63,16 @@ const roleBasedAccess = async (req, res, next) => {
   }
 };
 
-const adminOnly = (req, res, next) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({
-      success: false,
-      message: "Access denied: Admins only",
-      data: null,
-      error: ["You are not authorized to perform this action"],
-    });
-  }
-  next();
-};
+export default roleBasedAccess;
 
-export { roleBasedAccess, adminOnly };
+// const adminOnly = (req, res, next) => {
+//   if (req.user.role !== "admin") {
+//     return res.status(403).json({
+//       success: false,
+//       message: "Access denied: Admins only",
+//       data: null,
+//       error: ["You are not authorized to perform this action"],
+//     });
+//   }
+//   next();
+// };

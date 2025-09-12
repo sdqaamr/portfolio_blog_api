@@ -7,9 +7,9 @@ import {
   deleteCategory,
 } from "../controllers/categories.js";
 import validateId from "../middlewares/validateId.js";
-import { verifyToken, authorizeRoles } from "../middlewares/auth.js";
+import verifyToken from "../middlewares/auth.js";
 import checkBannedUser from "../middlewares/checkBanned.js";
-import { roleBasedAccess, adminOnly } from "../middlewares/roleBasedAccess.js";
+import roleBasedAccess from "../middlewares/roleBasedAccess.js";
 import { checkRequestBody } from "../middlewares/validateRequest.js";
 
 router.get("/", verifyToken, getCategories);
@@ -18,7 +18,6 @@ router.post(
   "/",
   verifyToken,
   checkBannedUser,
-  adminOnly,
   checkRequestBody,
   createCategory
 );

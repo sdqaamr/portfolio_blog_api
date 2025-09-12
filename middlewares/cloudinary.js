@@ -35,7 +35,7 @@ export const uploadToCloudinary = async (req, res, next) => {
     return res.status(500).json({
       success: false,
       message: "File is not uploaded to Cloudinary",
-      error: error.message,
+      error: [error.message],
     });
   }
 };

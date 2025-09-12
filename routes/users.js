@@ -9,10 +9,13 @@ import {
   login,
   updateProfile,
   changePassword,
+  toggleUserStatus ,
 } from "../controllers/users.js";
-import { verifyToken } from "../middlewares/auth.js";
+import verifyToken from "../middlewares/auth.js";
 import checkBannedUser from "../middlewares/checkBanned.js";
 import { checkRequestBody } from "../middlewares/validateRequest.js";
+import validateId from "../middlewares/validateId.js";
+import roleBasedAccess from "../middlewares/roleBasedAccess.js";
 
 router.get("/me", verifyToken, getProfile);
 router.post("/register", checkRequestBody, register);
@@ -26,6 +29,18 @@ router.put(
   checkBannedUser,
   checkRequestBody,
   changePassword
+);
+router.patch(
+  "/:id/toggle",
+  (req, res, next) => {
+    req.resourceType = "Users";
+    next();
+  },
+  verifyToken,
+  validateId,
+  // authorizeRoles("admin"), // Only admins can toggle
+  roleBasedAccess,
+  toggleUserStatus
 );
 
 export default router;

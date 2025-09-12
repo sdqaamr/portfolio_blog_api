@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import sendEmail from "../utils/send-mail.js";
 
 // Get User Profile
-const getProfile = async (req, res) => {
+const getProfile = async (req, res, next) => {
   try {
     let id = req.user.id;
     const user = await Users.findById(id)
@@ -44,7 +44,7 @@ const getProfile = async (req, res) => {
 };
 
 // Create a new user account
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
     let { fullName, email, password, confirmPassword, role } = req.body;
     let validationErrors = [];
@@ -119,7 +119,7 @@ const register = async (req, res) => {
 };
 
 // Verify Email with OTP
-const verifyEmail = async (req, res) => {
+const verifyEmail = async (req, res, next) => {
   try {
     const { email, otp } = req.body;
     let errors = [];
@@ -186,7 +186,7 @@ const verifyEmail = async (req, res) => {
 };
 
 // Resend OTP
-const resendOtp = async (req, res) => {
+const resendOtp = async (req, res, next) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -243,7 +243,7 @@ const resendOtp = async (req, res) => {
 };
 
 // Login to existing account
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     let { email, password } = req.body;
     const user = await Users.findOne({ email: email })
@@ -311,7 +311,7 @@ const login = async (req, res) => {
 };
 
 // Change user password
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
   try {
     let userId = req.user.id;
     const { oldPassword, newPassword, confirmPassword } = req.body;
@@ -372,7 +372,7 @@ const changePassword = async (req, res) => {
 };
 
 // Update User Profile
-const updateProfile = async (req, res) => {
+const updateProfile = async (req, res, next) => {
   try {
     const userId = req.user.id;
     // Prevent email, otp, role, and password etc. updates
@@ -427,6 +427,62 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const toggleUserStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params; // userId to toggle
+    const requester = req.user; // comes from verifyToken middleware
+
+    // Only admin can toggle user status
+    // if (requester.role !== "admin") {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "Forbidden: Only admins can change user status",
+    //     data: null,
+    //     error: ["Permission denied"],
+    //   });
+    // }
+    const user = await Users.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        data: null,
+        error: ["No user exists with the given ID"],
+      });
+    }
+    // Handle inactive accounts
+    if (user.status === "inactive") {
+      return res.status(400).json({
+        success: false,
+        message: "User account is inactive and cannot be toggled",
+        data: null,
+        error: ["Activate the user before banning/unbanning"],
+      });
+    }
+    // Toggle logic
+    if (user.status === "active") {
+      user.status = "banned";
+    } else if (user.status === "banned") {
+      user.status = "active";
+    }
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: `User status changed to ${user.status}`,
+      data: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        status: user.status,
+      },
+      error: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getProfile,
   register,
@@ -435,4 +491,5 @@ export {
   login,
   changePassword,
   updateProfile,
+  toggleUserStatus,
 };

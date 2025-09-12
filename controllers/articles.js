@@ -3,7 +3,7 @@ import Category from "../models/categories.js";
 import mongoose from "mongoose";
 import { deleteFromCloudinary } from "../middlewares/cloudinary.js";
 
-const getArticles = async (req, res) => {
+const getArticles = async (req, res, next) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 5);
@@ -47,7 +47,7 @@ const getArticles = async (req, res) => {
   }
 };
 
-const getArticle = async (req, res) => {
+const getArticle = async (req, res, next) => {
   try {
     const { id } = req.params;
     const article = await Article.findById(id)
@@ -73,7 +73,7 @@ const getArticle = async (req, res) => {
   }
 };
 
-const createArticle = async (req, res) => {
+const createArticle = async (req, res, next) => {
   try {
     let { title, slug, content, categories, tags } = req.body;
     const validationErrors = [];
@@ -149,7 +149,7 @@ const createArticle = async (req, res) => {
   }
 };
 
-const updateArticle = async (req, res) => {
+const updateArticle = async (req, res, next) => {
   try {
     const articleId = req.params.id; // comes from URL /articles/:id
 
@@ -248,7 +248,7 @@ const updateArticleThumbnail = async (req, res, next) => {
 };
 
 // Toggle Publish / Unpublish
-const toggleArticlePublish = async (req, res) => {
+const toggleArticlePublish = async (req, res, next) => {
   try {
     const { id } = req.params;
     const article = await Article.findById(id)
@@ -291,7 +291,7 @@ const toggleArticlePublish = async (req, res) => {
   }
 };
 
-const deleteArticle = async (req, res) => {
+const deleteArticle = async (req, res, next) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;

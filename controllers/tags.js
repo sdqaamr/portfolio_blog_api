@@ -1,6 +1,6 @@
 import Tag from "../models/tags.js";
 
-const getTags = async (req, res) => {
+const getTags = async (req, res, next) => {
   try {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.max(1, parseInt(req.query.limit) || 5);
@@ -32,7 +32,7 @@ const getTags = async (req, res) => {
   }
 };
 
-const createTag = async (req, res) => {
+const createTag = async (req, res, next) => {
   try {
     const { name, slug } = req.body;
     const validationErrors = [];
@@ -72,7 +72,7 @@ const createTag = async (req, res) => {
   }
 };
 
-const deleteTag = async (req, res) => {
+const deleteTag = async (req, res, next) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;

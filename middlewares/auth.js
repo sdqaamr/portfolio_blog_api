@@ -18,7 +18,7 @@ const verifyToken = (req, res, next) => {
           success: false,
           message: "Authentication failed",
           data: null,
-          error: err.message,
+          error: [err.message],
         });
       }
       req.user = decoded;
@@ -29,18 +29,4 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const authorizeRoles = (...allowedRoles) => {
-  return (req, res, next) => {
-    if (!req.user || !allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: "Forbidden: You don't have enough permissions",
-        data: null,
-        error: ["Access denied"],
-      });
-    }
-    next();
-  };
-};
-
-export { verifyToken, authorizeRoles };
+export default verifyToken;
